@@ -39,7 +39,7 @@ source "${REPO_ROOT}/build/versioning.sh"
 
 : "${IMAGE_NAME:=2tefan/android-rom-builder}"
 : "${LINUX_DISTRO:=ubuntu}"
-: "${LINUX_DISTRO_RELEASE:=20.04}"
+: "${LINUX_DISTRO_RELEASE:=26.04}"
 : "${ARB_VERSION:=${BUILDER_VERSION}-${LINUX_DISTRO}-${LINUX_DISTRO_RELEASE}}"
 : "${IMAGE:="${IMAGE_NAME}:${ARB_VERSION}"}"
 if [[ -v BUILDER_VERSION_SHORTEN ]]; then

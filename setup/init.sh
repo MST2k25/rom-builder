@@ -15,8 +15,12 @@ CCACHE_VERSION=$(ccache --version | head -n 1 | awk '{print $3}')
 # ---- <functions> ----
 
 function setup_ccache() {
-    ccache -M "${CCACHE_SIZE}" > /dev/null
-    REAL_CCACHE_SIZE=$(ccache -s | grep "max cache size" | awk '{print $4 $5}')
+    ccache --max-size="${CCACHE_SIZE}" > /dev/null
+
+    REAL_CCACHE_SIZE="$(
+        ccache --show-config \
+        | awk -F' = ' '/max_size = / { print $2; exit }'
+    )"
 }
 
 function env_exists_or_prompt {
@@ -82,7 +86,7 @@ printf "Using:\n"
 printf "\tARB: %s\n" "$ARB_VERSION"
 printf "\tRepo (%s): %s\n" "$REPO_LOCATION" "$REPO_VERSION"
 printf "\tGit: %s\n" "$GIT_VERSION"
-printf "\tPython2: %s\n" "$PYTHON2_VERSION"
+printf "\tPython2: %s\n" "🪦"
 printf "\tPython3: %s\n" "$PYTHON3_VERSION"
 printf "\tCCache (Set: %s | Real: %s): %s\n" "$CCACHE_SIZE" "$REAL_CCACHE_SIZE" "$CCACHE_VERSION"
 echo

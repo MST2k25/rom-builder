@@ -24,35 +24,30 @@ RUN apt-get update && \
         gnupg \
         gperf \
         imagemagick \
-        lib32ncurses5-dev \
+        lib32ncurses-dev \
         lib32readline-dev \
         lib32z1-dev \
-        liblz4-tool \
-        libncurses5 \
-        libncurses5-dev \
+        lz4 \
+        libncurses-dev \
+        libncurses6 \
         libsdl1.2-dev \
         libssl-dev \
-        libwxgtk3.0-gtk3-dev \
-        libxml2 \
-        libxml2-utils \
+        libwxgtk3.2-dev \
+        libxml2-16 \
+        libxml2-dev \
         lzop \
+        nano \
+        neovim \
         pngcrush \
-        python \
+        python3 \
         rsync \
         schedtool \
         squashfs-tools \
         xsltproc \
         zip \
-        zlib1g-dev
-
-RUN apt-get update && \
-    apt-get install -y \
-        android-sdk-platform-tools
-
-RUN apt-get update && \
-    apt-get install -y \
-        nano \
-        neovim
+        zlib1g-dev \
+        android-sdk-platform-tools \
+    && rm -rf /var/lib/apt/lists/*
 
 ADD setup/arb.sh $HOME_DIR/.arb
 ADD build/setup.sh $HOME_DIR/setup.sh
