@@ -27,7 +27,6 @@ RUN apt-get update && \
         lib32ncurses-dev \
         lib32readline-dev \
         lib32z1-dev \
-        lz4 \
         libncurses-dev \
         libncurses6 \
         libsdl1.2-dev \
@@ -35,10 +34,12 @@ RUN apt-get update && \
         libwxgtk3.2-dev \
         libxml2-16 \
         libxml2-dev \
+        lz4 \
         lzop \
         nano \
         neovim \
         pngcrush \
+        python-is-python3 \
         python3 \
         rsync \
         schedtool \
