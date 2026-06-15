@@ -21,6 +21,7 @@ RUN apt-get update && \
         g++-multilib \
         gcc-multilib \
         git \
+        git-lfs \
         gnupg \
         gperf \
         imagemagick \
