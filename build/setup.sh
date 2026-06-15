@@ -2,9 +2,8 @@
 
 set -eu
 
-mkdir mkdir -p ~/bin
-curl https://storage.googleapis.com/git-repo-downloads/repo >~/bin/repo
-chmod a+x ~/bin/repo
+curl https://storage.googleapis.com/git-repo-downloads/repo >/usr/bin/repo
+chmod a+x /usr/bin/repo
 
 echo "# Source file for environment variables for the ROM build
 if [ -f ~/.arb ]; then
