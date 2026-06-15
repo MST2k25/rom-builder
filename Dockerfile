@@ -58,8 +58,11 @@ RUN rm $HOME_DIR/setup.sh
 
 WORKDIR $HOME_DIR
 
+
 ADD setup/init.sh $HOME_DIR/init.sh
-RUN echo "./init.sh" >> $HOME_DIR/.bashrc
+RUN mkdir -p "$HOME_DIR/.local/share/bash" && \
+    echo './init.sh' >> "$HOME_DIR/.bashrc" && \
+    echo "export HISTFILE=$HOME_DIR/.local/share/bash/history" >> "$HOME_DIR/.bashrc"
 
 ARG ARB_VERSION
 ENV ARB_VERSION=${ARB_VERSION}
