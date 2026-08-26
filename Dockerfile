@@ -2,7 +2,10 @@ ARG LINUX_DISTRO
 ARG LINUX_DISTRO_RELEASE
 
 FROM ${LINUX_DISTRO}:${LINUX_DISTRO_RELEASE}
-ARG HOME_DIR=/root
+
+ARG USER_UID=1000
+ARG USER_GID=1000
+ARG HOME_DIR=/home/ubuntu
 
 ENV DEBIAN_FRONTEND='noninteractive'
 
@@ -21,50 +24,55 @@ RUN apt-get update && \
         g++-multilib \
         gcc-multilib \
         git \
+        git-lfs \
         gnupg \
         gperf \
         imagemagick \
-        lib32ncurses5-dev \
+        lib32ncurses-dev \
         lib32readline-dev \
         lib32z1-dev \
-        liblz4-tool \
-        libncurses5 \
-        libncurses5-dev \
+        libncurses-dev \
+        libncurses6 \
         libsdl1.2-dev \
         libssl-dev \
-        libwxgtk3.0-gtk3-dev \
-        libxml2 \
-        libxml2-utils \
+        libwxgtk3.2-dev \
+        libxml2-16 \
+        libxml2-dev \
+        lz4 \
         lzop \
+        nano \
+        neovim \
         pngcrush \
-        python \
+        python-is-python3 \
+        python3 \
         rsync \
         schedtool \
         squashfs-tools \
+        tmux \
         xsltproc \
         zip \
-        zlib1g-dev
+        zlib1g-dev \
+        android-sdk-platform-tools \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && \
-    apt-get install -y \
-        android-sdk-platform-tools
+ADD --chown=${USER_UID}:${USER_GID} setup/arb.sh ${HOME_DIR}/.arb
+ADD --chown=${USER_UID}:${USER_GID} build/setup.sh ${HOME_DIR}/setup.sh
 
-RUN apt-get update && \
-    apt-get install -y \
-        nano \
-        neovim
+RUN ${HOME_DIR}/setup.sh && \
+    rm ${HOME_DIR}/setup.sh
 
-ADD setup/arb.sh $HOME_DIR/.arb
-ADD build/setup.sh $HOME_DIR/setup.sh
-RUN $HOME_DIR/setup.sh
-RUN rm $HOME_DIR/setup.sh
+ADD --chown=${USER_UID}:${USER_GID} setup/init.sh ${HOME_DIR}/init.sh
 
-WORKDIR $HOME_DIR
-
-ADD setup/init.sh $HOME_DIR/init.sh
-RUN echo "./init.sh" >> $HOME_DIR/.bashrc
+RUN mkdir -p "${HOME_DIR}/.local/share/bash" && \
+    echo './init.sh' >> "${HOME_DIR}/.bashrc" && \
+    echo "export HISTFILE=${HOME_DIR}/.local/share/bash/history" >> "${HOME_DIR}/.bashrc" && \
+    chown -R ${USER_UID}:${USER_GID} "${HOME_DIR}"
 
 ARG ARB_VERSION
 ENV ARB_VERSION=${ARB_VERSION}
+
+WORKDIR ${HOME_DIR}
+
+USER ${USER_UID}:${USER_GID}
 
 ENTRYPOINT ["/bin/bash"]
